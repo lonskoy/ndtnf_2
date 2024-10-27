@@ -12,31 +12,9 @@ export interface Book {
 }
 
 export abstract class BooksRepository {
-    book: Object;
-    id: string;
-
-    constructor(book: Object, id: string) {
-        book = this.book;
-        id = this.id;
-    }
-
-    createBook(book: Object) {
-
-    }
-
-    getBook(id: string) {
-
-    }
-
-    getBooks() {
-
-    }
-
-    updateBook(id: string) {
-
-    }
-
-    deleteBook(id: string) {
-
-    }
-}
+    abstract createBook(book: any): Promise<any>;
+    abstract getBook(id: string): Promise<any>;
+    abstract getBooks(): Promise<any>;
+    abstract updateBook(id: string, book: any): Promise<any>;
+    abstract deleteBook(id: string): Promise<any>;
+  }

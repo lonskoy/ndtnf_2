@@ -3,6 +3,8 @@ const BooksController = require('../controllres/booksController.js');
 const router = express.Router();
 const fileUploadMiddleware = require('../middleware/file.js')
 const pathEdit = require('../middleware/pathEdit.js')
+const container = require('../container.js')
+const booksRepository = require('../interfaces/interface.tsx')
 
 const booksController = new BooksController;
 
@@ -13,5 +15,11 @@ router.post('/books/create', fileUploadMiddleware.single('fileBook'),pathEdit, b
 router.get('/books/update/:id', booksController.updateBookGet.bind(booksController)); // роут для получения страницы для редактирования книги
 router.post('/books/update/:id', fileUploadMiddleware.single('fileBook'),pathEdit, booksController.updateBookPost.bind(booksController)); // роут для отправки запроса на редактирование книги
 router.post('/books/delete/:id', booksController.deleteBook.bind(booksController)); // роут для удаления книги
+
+router.get(':id', async (req, res, next) => {
+    const repo = container.get(booksRepository);
+    const book = await repo.getBook(req.params.id);
+    res.json(book);
+  })
 
 module.exports = router;
